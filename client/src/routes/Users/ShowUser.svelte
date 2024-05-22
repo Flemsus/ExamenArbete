@@ -28,13 +28,6 @@
                 <div>Email: {user.email}</div>
                 <div>Phone Number: {user.phoneNumber}</div>
                 <div>Password: {user.password}</div>
-                <div>Time Slots:
-                    <ul class="timeslot-list">
-                        {#each user.timeSlots as timeSlot}
-                            <li>{timeSlot.startTime} - {timeSlot.endTime}</li>
-                        {/each}
-                    </ul>
-                </div>
             </li>
         {/each}
     </ul>
@@ -66,9 +59,4 @@
         margin-bottom: 5px;
     }
 
-    .timeslot-list {
-        list-style: none; 
-        padding: 0;
-        margin-top: 5px; 
-    }
 </style>

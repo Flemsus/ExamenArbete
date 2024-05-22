@@ -1,59 +1,53 @@
-// Starting point of the application
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Vick.Api.Endpoints;
 using Vick.Api.Endpoints.Internal;
 using Vick.Core.Interfaces;
 using Vick.Core.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure DbContext with the provided connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Should add identity??
+// Configure Identity services
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
 })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Add authorization
+// Add authorization and authentication services
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
 
-// TODO: Should not be Singleton when we have a persistant storage/database 
+// Register UserService as a singleton service
 builder.Services.AddSingleton<IUserService, UserService>();
-builder.Services.AddSingleton<ITimeSlotService, TimeSlotService>();
 
+// Configure CORS policy
 ConfigureCors(builder);
 
 var app = builder.Build();
 
+// Enable CORS
 app.UseCors("AllowAllOrigins");
 
+// Enable authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Just a simple health check
+// Define root endpoint response
 app.MapGet("/", () => "I'm alive!");
 
-// Define endpoints for all classes that implement IEndpoints
+// Define endpoints for internal API
 app.UseEndpoints<EndpointMarker>();
 
+// Start the application
 app.Run();
 
-
+// Method to configure CORS policy
 static void ConfigureCors(WebApplicationBuilder builder)
 {
-    // TODO: Use a better way to configure CORS
     builder.Services.AddCors(options =>
     {
         options.AddPolicy(
@@ -67,7 +61,7 @@ static void ConfigureCors(WebApplicationBuilder builder)
     });
 }
 
-// This part is definitely better somewhere else
+// DbContext class representing the application's database
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

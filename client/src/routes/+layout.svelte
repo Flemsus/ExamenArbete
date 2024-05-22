@@ -1,11 +1,11 @@
 <script>
 	import Footer from './Footer.svelte';
+	import Header from './Header.svelte';
 	import './styles.css';
-	import LoggedInUser from '../components/LoggedInUser.svelte';
 </script>
 
 <div class="app">
-	<LoggedInUser />
+	<Header />
 
 	<main>
 		<slot />

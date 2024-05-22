@@ -54,7 +54,7 @@ let isOpen1 = false;
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgb(255, 255, 255);
+		background-color: rgba(255, 255, 255, 0.5);
 		z-index: 999;
 		display: flex;
 		justify-content: center;

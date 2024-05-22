@@ -7,29 +7,13 @@
 	let name = '';
 	let email = '';
 	let password = '';
-	let phoneNumber = '';
-	let timeSlots = [];
-
 	let errorMessage = '';
 
 	async function handleSubmit() {
-		if (!validateEmail(email)) {
-			errorMessage = 'Please enter a valid email address.';
-			return;
-		}
-
-		const isEmailExists = await checkEmailExists(email);
-		if (isEmailExists) {
-			errorMessage = 'Email already in use.';
-			return;
-		}
-
 		const userData = {
 			name,
 			email,
-			password,
-			phoneNumber,
-			timeSlots
+			password
 		};
 
 		try {
@@ -47,10 +31,6 @@
 				name = '';
 				email = '';
 				password = '';
-				phoneNumber = '';
-				timeSlots = [];
-				console.log('User added successfully');
-				window.location.href = '/Login';
 			} else {
 				const errorData = await response.json();
 				errorMessage = errorData.message || 'Failed to create user.';
@@ -58,22 +38,6 @@
 		} catch (error) {
 			console.error('Error creating user:', error);
 			errorMessage = 'An error occurred while creating user. Please try again.';
-		}
-	}
-
-	async function checkEmailExists(email) {
-		try {
-			const response = await fetch(`${PUBLIC_API_URL}/user/all`);
-			if (response.ok) {
-				const users = await response.json();
-				return users.some((user) => user.email === email);
-			} else {
-				console.error('Failed to fetch users:', response.statusText);
-				return false;
-			}
-		} catch (error) {
-			console.error('Error fetching users:', error);
-			return false;
 		}
 	}
 
@@ -95,8 +59,6 @@
 		<input type="email" id="email" bind:value={email} required />
 		<label for="password">Password:</label>
 		<input type="password" id="password" bind:value={password} required />
-		<label for="phoneNumber">Phone Number:</label>
-		<input type="tel" id="phoneNumber" bind:value={phoneNumber} required />
 		<button type="submit">Create User</button>
 	</form>
 </div>

@@ -1,105 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
 using Vick.Core.Interfaces;
 using Vick.Core.Models;
+using Dapper;
+using Microsoft.Extensions.Configuration;
+
+
 
 namespace Vick.Core.Services
 {
     public class UserService : IUserService
     {
-        private User _activeUser;
-        private List<User> _users = new List<User>();
-        private readonly Random _random = new Random();
-        private int _lastUserId = 0;
+        private readonly string _connectionString;
 
-        public UserService()
+        public UserService(IConfiguration configuration)
         {
-            _activeUser = GetUser() ?? CreateTestUser();
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public User GetUser()
         {
-            return _activeUser;
-        }
-
-        private User CreateTestUser()
-        {
-            string testUserName = "Test User";
-            string testUserEmail = "test@test.test";
-            string testUserPassword = "test";
-            string testUserPhoneNumber = "1234567890";
-            List<TimeSlot> testUserTimeSlots = new List<TimeSlot>();
-
-            User testUser = new User
+            using (var connection = new SqlConnection(_connectionString))
             {
-                Id = GenerateUserId(),
-                Name = testUserName,
-                Email = testUserEmail,
-                Password = testUserPassword,
-                PhoneNumber = testUserPhoneNumber,
-                TimeSlots = testUserTimeSlots
-            };
-
-            _users.Add(testUser);
-
-            return testUser;
+                return connection.QueryFirstOrDefault<User>("SELECT TOP 1 * FROM Users");
+            }
         }
 
         public User GetUser(int id)
         {
-            return _users.Find(x => x.Id == id);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection.QueryFirstOrDefault<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
+            }
         }
 
         public User GetUserByEmail(string email)
         {
-            return _users.Find(x => x.Email == email);
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection.QueryFirstOrDefault<User>("SELECT * FROM Users WHERE Email = @Email", new { Email = email });
+            }
         }
 
         public void UpdateUser(User user)
         {
-            var index = _users.FindIndex(x => x.Id == user.Id);
-            _users[index] = user;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var rowsAffected = connection.Execute("UPDATE Users SET Name = @Name, Email = @Email, Password = @Password WHERE Id = @Id", user);
+                if (rowsAffected == 0)
+                {
+                    throw new ArgumentException($"User with ID {user.Id} not found.");
+                }
+            }
         }
 
-        public User CreateUser(string name, string email, string password, string phoneNumber, List<TimeSlot> timeSlots)
+        public User CreateUser(string name, string email, string password)
         {
-            var newUser = new User
+            using (var connection = new SqlConnection(_connectionString))
             {
-                Id = GenerateUserId(),
-                Name = name,
-                Email = email,
-                Password = password,
-                PhoneNumber = phoneNumber,
-                TimeSlots = timeSlots
-            };
-            _users.Add(newUser);
-            return newUser;
+                var newUser = new User
+                {
+                    Name = name,
+                    Email = email,
+                    Password = password,
+                    RoleId = 2 
+                };
+
+                var id = connection.QuerySingle<int>("INSERT INTO Users (Name, Email, Password, RoleId) OUTPUT INSERTED.Id VALUES (@Name, @Email, @Password, @RoleId)", newUser);
+                newUser.Id = id;
+                return newUser;
+            }
         }
+
+
 
         public List<User> GetAllUsers()
         {
-            return _users;
-        }
-
-        public int GenerateUserId()
-        {
-            int newId;
-            do
+            using (var connection = new SqlConnection(_connectionString))
             {
-                newId = _random.Next(1000, 10000);
-            } while (newId == _lastUserId);
-
-            _lastUserId = newId;
-            return newId;
+                return connection.Query<User>("SELECT * FROM Users").ToList();
+            }
         }
 
         public void DeleteUser(int id)
         {
-            var userToRemove = _users.Find(x => x.Id == id);
-            if (userToRemove != null)
+            using (var connection = new SqlConnection(_connectionString))
             {
-                _users.Remove(userToRemove);
+                var rowsAffected = connection.Execute("DELETE FROM Users WHERE Id = @Id", new { Id = id });
+                if (rowsAffected == 0)
+                {
+                    throw new ArgumentException($"User with ID {id} not found.");
+                }
             }
         }
     }
+
+   
 }

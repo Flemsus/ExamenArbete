@@ -58,16 +58,7 @@
 				<div>ID: {user.id}</div>
 				<div>Name: {user.name}</div>
 				<div>Email: {user.email}</div>
-				<div>Phone Number: {user.phoneNumber}</div>
 				<div>Password: {user.password}</div>
-				<div>
-					Time Slots:
-					<ul class="timeslot-list">
-						{#each user.timeSlots as timeSlot}
-							<li>{timeSlot.startTime} - {timeSlot.endTime}</li>
-						{/each}
-					</ul>
-				</div>
 				<button on:click={() => deleteUser(user.id)}>Delete</button>
 				{#if userToDelete && userToDelete.id === user.id}
 					<div class="confirmation-modal">
@@ -76,7 +67,6 @@
 							ID: {user.id}<br />
 							Name: {user.name}<br />
 							Email: {user.email}<br />
-							Phone Number: {user.phoneNumber}<br />
 							Password: {user.password}
 						</p>
 						<div class="buttons">
@@ -114,12 +104,6 @@
 
 	.user-item div {
 		margin-bottom: 5px;
-	}
-
-	.timeslot-list {
-		list-style: none;
-		padding: 0;
-		margin-top: 5px;
 	}
 
 	button {

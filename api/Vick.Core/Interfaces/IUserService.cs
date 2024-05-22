@@ -1,4 +1,5 @@
 ﻿using Vick.Core.Models;
+using System.Collections.Generic;
 
 namespace Vick.Core.Interfaces
 {
@@ -8,8 +9,8 @@ namespace Vick.Core.Interfaces
         User GetUser(int id);
         void UpdateUser(User user);
         void DeleteUser(int id);
-        User CreateUser(string name, string email, string password, string phoneNumber, List<TimeSlot> timeSlots);
+        User CreateUser(string name, string email, string password);
         List<User> GetAllUsers();
-        User GetUserByEmail(string email); 
+        User GetUserByEmail(string email);
     }
 }
