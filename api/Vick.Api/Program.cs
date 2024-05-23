@@ -21,8 +21,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication();
 
-// Register UserService as a singleton service
-builder.Services.AddSingleton<IUserService, UserService>();
+// Register UserService as a scoped service (better for DbContext handling)
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Configure CORS policy
 ConfigureCors(builder);
@@ -39,8 +39,12 @@ app.UseAuthorization();
 // Define root endpoint response
 app.MapGet("/", () => "I'm alive!");
 
-// Define endpoints for internal API
-app.UseEndpoints<EndpointMarker>();
+// Ensure the middleware to map endpoints
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    UserEndpoints.DefineEndpoints(endpoints);
+});
 
 // Start the application
 app.Run();
@@ -61,7 +65,6 @@ static void ConfigureCors(WebApplicationBuilder builder)
     });
 }
 
-// DbContext class representing the application's database
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

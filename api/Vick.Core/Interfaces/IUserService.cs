@@ -12,5 +12,12 @@ namespace Vick.Core.Interfaces
         User CreateUser(string name, string email, string password);
         List<User> GetAllUsers();
         User GetUserByEmail(string email);
+
+        // Artwork related methods
+        List<Artwork> GetAllArtworks();
+        Artwork AddArtwork(Artwork artwork);
+
+        bool DeleteArtwork(int artworkId);
+        bool UpdateArtwork(Artwork artwork);
     }
 }

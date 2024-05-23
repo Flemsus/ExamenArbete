@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using Vick.Core.Interfaces;
-using Vick.Core.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-
-
+using Vick.Core.Interfaces;
+using Vick.Core.Models;
 
 namespace Vick.Core.Services
 {
@@ -24,7 +22,12 @@ namespace Vick.Core.Services
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.QueryFirstOrDefault<User>("SELECT TOP 1 * FROM Users");
+                var user = connection.QueryFirstOrDefault<User>("SELECT TOP 1 * FROM Users");
+                if (user != null)
+                {
+                    user.UserArt = GetArtworksByUserId(user.Id);
+                }
+                return user;
             }
         }
 
@@ -32,7 +35,12 @@ namespace Vick.Core.Services
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.QueryFirstOrDefault<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
+                var user = connection.QueryFirstOrDefault<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
+                if (user != null)
+                {
+                    user.UserArt = GetArtworksByUserId(id);
+                }
+                return user;
             }
         }
 
@@ -40,7 +48,13 @@ namespace Vick.Core.Services
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.QueryFirstOrDefault<User>("SELECT * FROM Users WHERE Email = @Email", new { Email = email });
+                var user = connection.QueryFirstOrDefault<User>("SELECT * FROM Users WHERE Email = @Email", new { Email = email });
+                if (user != null)
+                {
+                  
+                    user.UserArt = GetArtworksByUserId(user.Id);
+                }
+                return user;
             }
         }
 
@@ -65,7 +79,7 @@ namespace Vick.Core.Services
                     Name = name,
                     Email = email,
                     Password = password,
-                    RoleId = 2 
+                    RoleId = 2
                 };
 
                 var id = connection.QuerySingle<int>("INSERT INTO Users (Name, Email, Password, RoleId) OUTPUT INSERTED.Id VALUES (@Name, @Email, @Password, @RoleId)", newUser);
@@ -74,13 +88,16 @@ namespace Vick.Core.Services
             }
         }
 
-
-
         public List<User> GetAllUsers()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query<User>("SELECT * FROM Users").ToList();
+                var users = connection.Query<User>("SELECT * FROM Users").ToList();
+                foreach (var user in users)
+                {
+                    user.UserArt = GetArtworksByUserId(user.Id);
+                }
+                return users;
             }
         }
 
@@ -95,7 +112,62 @@ namespace Vick.Core.Services
                 }
             }
         }
-    }
 
-   
+        public List<Artwork> GetAllArtworks()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection.Query<Artwork>("SELECT * FROM Artworks").ToList();
+            }
+        }
+
+        public Artwork AddArtwork(Artwork artwork)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var id = connection.QuerySingle<int>(
+                    "INSERT INTO Artworks (ImageUrl, ArtName, ArtCreatorId, ArtDescription, ArtPrice) OUTPUT INSERTED.Id VALUES (@ImageUrl, @ArtName, @ArtCreatorId, @ArtDescription, @ArtPrice)",
+                    artwork);
+                artwork.Id = id;
+                return artwork;
+            }
+        }
+
+
+        private List<Artwork> GetArtworksByUserId(int userId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection.Query<Artwork>("SELECT * FROM Artworks WHERE ArtCreatorId = @UserId", new { UserId = userId }).ToList();
+            }
+        }
+
+        public bool UpdateArtwork(Artwork artwork)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var rowsAffected = connection.Execute(
+                    "UPDATE Artworks SET ArtName = @ArtName, ArtDescription = @ArtDescription, ArtPrice = @ArtPrice WHERE Id = @Id",
+                    new
+                    {
+                        artwork.Id,
+                        artwork.ArtName,
+                        artwork.ArtDescription,
+                        artwork.ArtPrice
+                    });
+                return rowsAffected > 0;
+            }
+        }
+
+        public bool DeleteArtwork(int artworkId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var rowsAffected = connection.Execute("DELETE FROM Artworks WHERE Id = @Id", new { Id = artworkId });
+                return rowsAffected > 0;
+            }
+        }
+
+
+    }
 }

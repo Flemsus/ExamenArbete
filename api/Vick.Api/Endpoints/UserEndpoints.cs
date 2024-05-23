@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Vick.Api.Endpoints.Internal;
 using Vick.Api.Endpoints;
 using Vick.Core.Interfaces;
 using Vick.Core.Models;
-using System.Data.SqlClient;
 
 public class UserEndpoints : IEndpoints
 {
@@ -17,6 +19,12 @@ public class UserEndpoints : IEndpoints
         app.MapGet($"{BasePath}/all", GetAllUsers);
         app.MapPost($"{BasePath}/login", LoginUser);
         app.MapDelete($"{BasePath}/delete/{{id}}", DeleteUser);
+
+        // Artwork endpoints
+        app.MapGet($"{BasePath}/allArt", GetAllArtworks);
+        app.MapPost($"{BasePath}/addArt", AddArtwork);
+        app.MapDelete($"{BasePath}/deleteArt/{{id}}", DeleteArtwork);
+        app.MapPost($"{BasePath}/updateArt", UpdateArtwork);
     }
 
     private static IResult GetUser([FromServices] IUserService userService)
@@ -76,6 +84,45 @@ public class UserEndpoints : IEndpoints
         catch (ArgumentException ex)
         {
             return Results.BadRequest(ex.Message);
+        }
+    }
+
+    // Artwork related methods
+    private static IResult GetAllArtworks([FromServices] IUserService userService)
+    {
+        var artworks = userService.GetAllArtworks();
+        return Results.Ok(artworks);
+    }
+
+    private static async Task<IResult> AddArtwork([FromServices] IUserService userService, [FromBody] Artwork artwork)
+    {
+        var newArtwork = userService.AddArtwork(artwork);
+        return Results.Created($"/api/artworks/{newArtwork.Id}", newArtwork);
+    }
+
+    private static IResult DeleteArtwork(int id, [FromServices] IUserService userService)
+    {
+        var result = userService.DeleteArtwork(id);
+        if (result)
+        {
+            return Results.Ok();
+        }
+        else
+        {
+            return Results.NotFound();
+        }
+    }
+
+    private static IResult UpdateArtwork(Artwork artwork, [FromServices] IUserService userService)
+    {
+        var result = userService.UpdateArtwork(artwork);
+        if (result)
+        {
+            return Results.Ok();
+        }
+        else
+        {
+            return Results.NotFound();
         }
     }
 }
