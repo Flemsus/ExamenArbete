@@ -1,20 +1,15 @@
 <script>
+	import { writable } from 'svelte/store';
 	import { PUBLIC_API_URL } from '$env/static/public';
-	import { onMount } from 'svelte';
 
-	let email = '';
-	let password = '';
-	let loggedInUser = null;
+	let email = ''; // Declare email variable
+	let password = ''; // Declare password variable
 
-	onMount(() => {
-		loggedInUser = localStorage.getItem('loggedInUser');
-	});
+	// Create a writable store to hold the logged-in user information
+	const loggedInUser = writable(null);
 
-	async function loginUser() {
-		const userData = {
-			email: email,
-			password: password
-		};
+	async function loginUser(email, password) {
+		const userData = { email, password };
 
 		try {
 			const response = await fetch(`${PUBLIC_API_URL}/user/login`, {
@@ -25,21 +20,16 @@
 				body: JSON.stringify(userData)
 			});
 
-			console.log('Response status:', response.status);
-
-			const responseData = await response.json();
-			console.log('Response data:', responseData);
-
 			if (response.ok) {
-				console.log(`Login successful. Logged in as ${responseData.name}`);
-				loggedInUser = responseData.name;
-				localStorage.setItem('loggedInUser', responseData.name);
+				const responseData = await response.json();
+				loggedInUser.set(responseData);
+				localStorage.setItem('loggedInUserName', responseData.name);
+				localStorage.setItem('loggedInUserId', responseData.id);
+				localStorage.setItem('loggedInUserEmail', responseData.email);
+				localStorage.setItem('loggedInUserArtworks', JSON.stringify(responseData.userArt));
 				window.location.href = '/';
 			} else {
-				console.error('Login failed:', responseData.message);
-				alert('Fel e-post eller lösenord.');
-				email = '';
-				password = '';
+				alert('Invalid email or password.');
 			}
 		} catch (error) {
 			console.error('Error during login:', error);
@@ -48,19 +38,19 @@
 
 	function handleKeyPress(event) {
 		if (event.key === 'Enter') {
-			loginUser();
+			loginUser(email, password);
 		}
 	}
 </script>
 
-<div class="container" style="background-color: rgba(255, 255, 255, 0.9);">
+<div class="container">
 	<div class="input-container">
 		<i class="fas fa-user icon"></i>
 		<input
 			type="email"
 			id="email"
 			class="input-field"
-			placeholder="Epostadress"
+			placeholder="Email"
 			bind:value={email}
 			on:keypress={handleKeyPress}
 		/>
@@ -72,15 +62,15 @@
 			type="password"
 			id="password"
 			class="input-field"
-			placeholder="Lösenord"
+			placeholder="Password"
 			bind:value={password}
 			on:keypress={handleKeyPress}
 		/>
 	</div>
 
-	<button class="login-btn" on:click={loginUser}>Logga in</button>
-	<a href="/register-user" class="register">Registrera</a>
-	<a href="/forgot-password" class="forgot-password">Glömt lösenord</a>
+	<button class="login-btn" on:click={() => loginUser(email, password)}>Login</button>
+	<a href="/register-user" class="register">Register here!</a>
+	<a href="/forgot-password" class="forgot-password">Forgot your password?</a>
 </div>
 
 <style>
@@ -96,6 +86,7 @@
 		border: 1px solid #ccc;
 		border-radius: 5px;
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		background-color: white;
 	}
 
 	.input-field {

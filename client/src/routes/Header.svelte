@@ -1,30 +1,54 @@
 <script>
-	import { onMount } from 'svelte';
-	import { onDestroy } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
+	import { writable } from 'svelte/store';
 	import Popup from './../components/Popup.svelte';
 	import Login from './../components/Login.svelte';
-	import { writable } from 'svelte/store';
 
 	const isOpen = writable(false);
-	const loggedInUser = writable(null);
+	const loggedInUserName = writable(null);
 
 	function handlePageChange(event) {
 		isOpen.set(false);
 	}
 
+	function handleKeydown(event) {
+		if (event.key === 'Escape') {
+			isOpen.set(false);
+		}
+	}
+
+	function handleOutsideClick(event) {
+		const target = event.target;
+		const isInputOrButton = target.tagName === 'INPUT' || target.tagName === 'BUTTON';
+		if (!isInputOrButton) {
+			isOpen.set(false);
+		}
+	}
+
 	onMount(() => {
 		window.addEventListener('popstate', handlePageChange);
+		window.addEventListener('keydown', handleKeydown);
+		window.addEventListener('click', handleOutsideClick);
+		const storedUserName = localStorage.getItem('loggedInUserName');
+		if (storedUserName) {
+			loggedInUserName.set(storedUserName);
+		}
 
-		loggedInUser.set(localStorage.getItem('loggedInUser'));
-
-		onDestroy(() => {
+		return () => {
 			window.removeEventListener('popstate', handlePageChange);
-		});
+			window.removeEventListener('keydown', handleKeydown);
+			window.removeEventListener('click', handleOutsideClick);
+		};
 	});
 
+	function togglePopup() {
+		isOpen.set(!$isOpen);
+	}
+
 	async function logoutUser() {
+		localStorage.removeItem('loggedInUserName');
 		localStorage.removeItem('loggedInUser');
-		loggedInUser.set(null);
+		loggedInUserName.set(null);
 		window.location.reload();
 	}
 
@@ -39,9 +63,9 @@
 		<a href="/">Home</a>
 		<a href="/Gallery">Gallery</a>
 	</div>
-	{#if $loggedInUser !== null}
+	{#if $loggedInUserName}
 		<div class="user-dropdown">
-			<span>{$loggedInUser}</span>
+			<span>{$loggedInUserName}</span>
 			<div class="dropdown-content">
 				<a href="/MyProfile" on:click={redirectToProfile}>My Profile</a>
 				<a href="/" on:click={logoutUser}>Logout</a>
@@ -54,7 +78,7 @@
 			</div>
 		</Popup>
 	{:else}
-		<button class="login-btn" on:click={() => isOpen.set(true)}>Login</button>
+		<button class="login-btn" on:click={togglePopup}>Login</button>
 	{/if}
 </div>
 

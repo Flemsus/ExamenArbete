@@ -11,8 +11,11 @@
 			<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
 		</div>
 		<ul class="footer-nav">
-			<li aria-current={$page.url.pathname.startsWith('/Register') ? 'page' : undefined}>
-				<a href="/Register">Contact & About Us</a>
+			<li aria-current={$page.url.pathname.startsWith('/ContactUs') ? 'page' : undefined}>
+				<a href="/ContactUs">Contact</a>
+			</li>
+			<li aria-current={$page.url.pathname.startsWith('/ContactUs') ? 'page' : undefined}>
+				<a href="/AboutUs">About Us</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/Users') ? 'page' : undefined}>
 				<a href="/Users">Show Users</a>

@@ -1,68 +1,99 @@
 <script>
 	import { onMount } from 'svelte';
 	import ArtworkCard from './../../components/ArtworkCard.svelte';
+	import { PUBLIC_API_URL } from '$env/static/public';
 
 	let loggedInUser = null;
 	let successMessage = '';
+	let errorMessage = '';
 
-	onMount(() => {
+	let artworks = [];
+	let users = {};
+
+	onMount(async () => {
 		loggedInUser = localStorage.getItem('loggedInUser');
+
+		try {
+			const [artworksResponse, usersResponse] = await Promise.all([
+				fetch(`${PUBLIC_API_URL}/user/allArt`),
+				fetch(`${PUBLIC_API_URL}/user/all`) // Fetch user data
+			]);
+
+			if (!artworksResponse.ok || !usersResponse.ok) {
+				throw new Error('Failed to fetch data');
+			}
+
+			const [artworksData, usersData] = await Promise.all([
+				artworksResponse.json(),
+				usersResponse.json()
+			]);
+
+			artworks = artworksData;
+			users = usersData.reduce((acc, user) => {
+				acc[user.id] = user;
+				return acc;
+			}, {});
+		} catch (error) {
+			console.error('Error fetching data:', error);
+			errorMessage = 'Error fetching data. Please try again later.';
+		}
 	});
-
-	let users = {
-		1: { name: 'Flemsus', profileUrl: '/user/1' },
-		2: { name: 'Picasso', profileUrl: '/user/2' },
-		3: { name: 'A random dog', profileUrl: '/user/3' }
-	};
-
-	let artworks = [
-		{ imageUrl: 'images/Art1.png', title: 'Purple Boy', artistId: 1 },
-		{ imageUrl: 'images/Art2.png', title: 'Mona Lisa', artistId: 2 },
-		{ imageUrl: 'images/Art3.png', title: 'Woof', artistId: 3 }
-	];
 
 	let newTitle = '';
 	let newArtistId = '';
 	let newImageUrl = '';
+	let newArtDescription = '';
+	let newArtPrice = '';
 
-	function handleFileUpload(event) {
-		const file = event.target.files[0];
-		const reader = new FileReader();
-		reader.onload = () => {
-			newImageUrl = reader.result;
-		};
-		reader.readAsDataURL(file);
-	}
-
-	function addArtwork() {
+	async function addArtwork() {
 		if (newTitle && newArtistId && newImageUrl) {
-			artworks = [
-				...artworks,
-				{ imageUrl: newImageUrl, title: newTitle, artistId: parseInt(newArtistId) }
-			];
-			newTitle = '';
-			newArtistId = '';
-			newImageUrl = '';
-			successMessage = 'Artwork added successfully!';
+			try {
+				const response = await fetch(`${PUBLIC_API_URL}/user/addArt`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						artName: newTitle,
+						artCreatorId: parseInt(newArtistId),
+						imageUrl: newImageUrl,
+						artDescription: newArtDescription,
+						artPrice: newArtPrice
+					})
+				});
+
+				if (!response.ok) {
+					throw new Error('Failed to add artwork');
+				}
+
+				const newArtwork = await response.json();
+				artworks = [...artworks, newArtwork];
+
+				newTitle = '';
+				newArtistId = '';
+				newImageUrl = '';
+				newArtDescription = '';
+				newArtPrice = '';
+				successMessage = 'Artwork added successfully!';
+			} catch (error) {
+				successMessage = 'Error adding artwork: ' + error.message;
+			}
 		} else {
 			successMessage = 'Please provide all required information.';
 		}
 	}
 </script>
 
-<div class="hero-section">
-	<h1>Artistic Realms, Together!</h1>
-	<p>Discover, buy, and sell stunning artworks</p>
-</div>
-
 <div class="featured-artworks">
 	{#each artworks as artwork}
-		{#if users[artwork.artistId]}
+		{#if users[artwork.artCreatorId]}
+			<!-- Check if the user exists -->
 			<ArtworkCard
 				imageUrl={artwork.imageUrl}
-				title={artwork.title}
-				artist={users[artwork.artistId].name}
-				profileUrl={users[artwork.artistId].profileUrl}
+				title={artwork.artName}
+				artist={users[artwork.artCreatorId].name}
+				description={artwork.artDescription}
+				price={artwork.artPrice}
 			/>
 		{/if}
 	{/each}
@@ -72,15 +103,16 @@
 	<h2>Upload New Artwork</h2>
 	<input type="text" placeholder="Artwork Title" bind:value={newTitle} />
 	<input type="number" placeholder="Artist ID" bind:value={newArtistId} />
-	<input type="file" accept="image/*" on:change={handleFileUpload} />
+	<input type="text" placeholder="Artwork Image URL" bind:value={newImageUrl} />
+	<input type="text" placeholder="Artwork Description" bind:value={newArtDescription} />
+	<div class="price-input">
+		<input type="text" placeholder="Artwork Price (€)" bind:value={newArtPrice} />
+	</div>
 	<button on:click={addArtwork}>Add Artwork</button>
+	<p>{successMessage}</p>
 </div>
 
 <style>
-	.hero-section {
-		text-align: center;
-		margin-bottom: 32px;
-	}
 	.featured-artworks {
 		display: flex;
 		flex-wrap: wrap;
