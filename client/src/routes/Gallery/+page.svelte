@@ -38,17 +38,12 @@
 		}
 	});
 
-	let newTitle = '';
-	let newArtistId = '';
-	let newImageUrl = '';
-	let newArtDescription = '';
-	let newArtPrice = '';
+
 </script>
 
 <div class="featured-artworks">
 	{#each artworks as artwork}
 		{#if users[artwork.artCreatorId]}
-			<!-- Check if the user exists -->
 			<ArtworkCard
 				imageUrl={artwork.imageUrl}
 				title={artwork.artName}
