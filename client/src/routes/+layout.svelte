@@ -28,11 +28,10 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 0rem;
+		padding: 1rem;
 		width: 100vw;
 		max-width: 64rem;
 		margin: 0 auto;
-		/* TODO: Can we make this dynamic? */
-		padding-bottom: 60px;
+		background-color: white;
 	}
 </style>

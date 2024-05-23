@@ -2,31 +2,39 @@
 </script>
 
 <div class="hero-section">
-	<h1>Artistic Realms, Together!</h1>
-	<p>Discover, buy, and sell stunning artworks</p>
+    <div class="home-text">
+        <h1>Art Reveals Talent</h1>
+        <p>Discover, buy, and sell stunning artworks</p>
+    </div>
 </div>
 
 <style>
-	.hero-section {
-		background-image: url('images/Art1.png');
-		background-size: cover;
-		background-position: center;
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		color: orange;
-		text-align: center;
-	}
+    .hero-section {
+        background-color: white;
+        background-size: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: orange;
+        text-align: center;
+    }
 
-	.hero-section h1 {
-		font-size: 3rem;
-		margin-bottom: 1rem;
-	}
+	.home-text {
+    padding: 1em;
 
-	.hero-section p {
-		font-size: 1.5rem;
-		margin-bottom: 2rem;
-	}
+ 
+}
+
+
+
+    .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-section p {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
 </style>

@@ -33,6 +33,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+
+		width: 53.3%;
+		align-self: center;
 	}
 
 	.footer-content {

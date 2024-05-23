@@ -5,7 +5,6 @@
 	let email = ''; // Declare email variable
 	let password = ''; // Declare password variable
 
-	// Create a writable store to hold the logged-in user information
 	const loggedInUser = writable(null);
 
 	async function loginUser(email, password) {
@@ -22,12 +21,9 @@
 
 			if (response.ok) {
 				const responseData = await response.json();
-				loggedInUser.set(responseData);
-				localStorage.setItem('loggedInUserName', responseData.name);
-				localStorage.setItem('loggedInUserId', responseData.id);
-				localStorage.setItem('loggedInUserEmail', responseData.email);
-				localStorage.setItem('loggedInUserArtworks', JSON.stringify(responseData.userArt));
-				window.location.href = '/';
+				loggedInUser.set(responseData); // Store the entire user object
+				localStorage.setItem('loggedInUser', JSON.stringify(responseData)); //
+				window.location.reload();
 			} else {
 				alert('Invalid email or password.');
 			}
