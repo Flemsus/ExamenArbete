@@ -167,7 +167,7 @@
     }
 
     .buy-button {
-        background-color: #007bff;
+        background-color: orange;
         color: #ffffff;
         cursor: pointer;
     }
@@ -185,7 +185,7 @@
     }
 
     .buy-button:hover:enabled {
-        background-color: #0056b3;
+        background-color: #333333;
     }
 
     .cancel-button:hover {

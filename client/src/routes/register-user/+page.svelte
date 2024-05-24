@@ -48,7 +48,7 @@
 </script>
 
 <div class="new-user">
-	<h2>Create New User</h2>
+	<h2>Register</h2>
 	{#if errorMessage}
 		<p style="color: red;">{errorMessage}</p>
 	{/if}
@@ -59,7 +59,7 @@
 		<input type="email" id="email" bind:value={email} required />
 		<label for="password">Password:</label>
 		<input type="password" id="password" bind:value={password} required />
-		<button type="submit">Create User</button>
+		<button type="submit">Create account</button>
 	</form>
 </div>
 
@@ -92,7 +92,7 @@
 	}
 
 	button {
-		background-color: #4caf50;
+		background-color: orange;
 		color: white;
 		padding: 10px 20px;
 		border: none;
@@ -102,7 +102,7 @@
 	}
 
 	button:hover {
-		background-color: #45a049;
+		background-color: #333333;
 	}
 
 	.new-user {

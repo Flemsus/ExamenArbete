@@ -15,7 +15,7 @@
 		try {
 			const [artworksResponse, usersResponse] = await Promise.all([
 				fetch(`${PUBLIC_API_URL}/user/allArt`),
-				fetch(`${PUBLIC_API_URL}/user/all`) // Fetch user data
+				fetch(`${PUBLIC_API_URL}/user/all`) 
 			]);
 
 			if (!artworksResponse.ok || !usersResponse.ok) {

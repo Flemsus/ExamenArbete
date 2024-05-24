@@ -1,91 +1,174 @@
 <script>
-	let name = '';
-	let email = '';
-	let subject = '';
-	let message = '';
+    let name = '';
+    let email = '';
+    let subject = '';
+    let message = '';
+    let showSuccessMessage = false;
 
-	function handleSubmit() {
-		// Add your form submission logic here
-		console.log('Name:', name);
-		console.log('Email:', email);
-		console.log('Subject:', subject);
-		console.log('Message:', message);
+    function handleSubmit() {
+        console.log('Name:', name);
+        console.log('Email:', email);
+        console.log('Subject:', subject);
+        console.log('Message:', message);
 
-		// Reset form fields after submission
-		name = '';
-		email = '';
-		subject = '';
-		message = '';
-	}
+        name = '';
+        email = '';
+        subject = '';
+        message = '';
+
+        showSuccessMessage = true;
+    }
 </script>
 
 <h1>Contact Us</h1>
 
-<form on:submit|preventDefault={handleSubmit}>
-	<label for="name">Name:</label>
-	<input type="text" id="name" bind:value={name} required />
+<div class="contact-container">
+    <div class="info-text">
+        <h2>Contact info</h2>
+        <p><i class="fas fa-envelope"></i> contact@artrevealstalent.com</p>
+        <p><i class="fas fa-phone"></i> 123-456-7890</p>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Art Street, Artville</p>
+    </div>
 
-	<label for="email">Email:</label>
-	<input type="email" id="email" bind:value={email} required />
+    <form on:submit|preventDefault={handleSubmit}>
+        {#if showSuccessMessage}
+            <div class="success-message">
+                Message sent.
+            </div>
+        {/if}
 
-	<label for="subject">Subject:</label>
-	<input type="text" id="subject" bind:value={subject} required />
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" bind:value={name} required />
+        </div>
 
-	<label for="message">Message:</label>
-	<textarea id="message" bind:value={message} required></textarea>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" bind:value={email} required />
+        </div>
 
-	<button type="submit">Send Message</button>
-</form>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" bind:value={subject} required />
+        </div>
 
-<footer>
-	<p>Contact Information:</p>
-	<p>Email: contact@artrevealstalent.com</p>
-	<p>Phone: 123-456-7890</p>
-	<p>Address: 123 Art Street, Artville</p>
-</footer>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" bind:value={message} required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Send Message</button>
+    </form>
+</div>
 
 <style>
-	h1 {
-		text-align: center;
-		margin-bottom: 20px;
-	}
+    h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+    }
 
-	form {
+    .contact-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 10px;
+    }
+
+    .info-text {
+        flex: 1.5; 
+        margin-right: 40px;
+        font-size: 16px;
+        color: #555;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-text h2 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .info-text p {
+        margin-bottom: 10px;
+    }
+
+    .info-text i {
+        color: #e3a13d;
+        margin-right: 10px;
+    }
+
+    form {
+        flex: 1; 
+        width: 500px;
 		max-width: 500px;
-		margin: 0 auto;
-	}
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
 
-	label {
-		display: block;
-		margin-bottom: 10px;
-		font-weight: bold;
-	}
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-	input,
-	textarea {
-		width: 100%;
-		padding: 10px;
-		margin-bottom: 20px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-	}
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
 
-	button {
-		padding: 10px 20px;
-		background-color: #007bff;
-		color: #fff;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-	}
+    input,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #555;
+    }
 
-	button:hover {
-		background-color: #0056b3;
-	}
+    textarea {
+        height: 150px;
+    }
 
-	footer {
-		text-align: center;
-		margin-top: 50px;
-		font-size: 14px;
-	}
+    .btn {
+        padding: 10px 20px;
+        background-color: #e3a13d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #333333;
+    }
+
+	.success-message {
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .contact-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-text {
+            margin-right: 0;
+            margin-bottom: 30px;
+        }
+    }
 </style>
+

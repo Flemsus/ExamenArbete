@@ -1,78 +1,101 @@
 <script>
-	import { page } from '$app/stores';
-	import '@fortawesome/fontawesome-free/css/all.css';
+    import '@fortawesome/fontawesome-free/css/all.css';
 </script>
 
 <div class="footer">
-	<div class="footer-content">
-		<div class="social-icons">
-			<a href="https://www.facebook.com"><i class="fab fa-facebook"></i></a>
-			<a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
-			<a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
-		</div>
-		<ul class="footer-nav">
-			<li aria-current={$page.url.pathname.startsWith('/ContactUs') ? 'page' : undefined}>
-				<a href="/ContactUs">Contact</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/ContactUs') ? 'page' : undefined}>
-				<a href="/AboutUs">About Us</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/Users') ? 'page' : undefined}>
-				<a href="/Users">Show Users</a>
-			</li>
-		</ul>
-	</div>
+    <div class="footer-content">
+        <div class="left-section">
+            <a href="/"><img src="images/Logo.png" alt="Logo" /></a>
+        </div>
+        <div class="center-section">
+            <div class="copyright">Art Reveals Talent &copy;</div>
+        </div>
+        <div class="right-section">
+            <div class="social-icons">
+                <a href="https://www.facebook.com" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://twitter.com" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.instagram.com" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
-	/* Add your footer styles here */
-	.footer {
-		background-color: #333;
-		color: white;
-		padding: 1rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+    .footer {
+        background-color: #333;
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        max-width: 64rem;
+        align-self: center;
+        position: relative;
+        bottom: 0;
+    }
 
-		width: 53.3%;
-		align-self: center;
-	}
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 64rem;
+    }
 
-	.footer-content {
-		display: flex;
-		gap: 1rem;
-	}
+   
+   
+    .left-section {
+        flex: 1;
+        display: flex;
+        justify-content: left;
+        align-items: left;
+    }
 
-	.social-icons a {
-		color: white;
-		text-decoration: none;
-		font-size: 1.5rem;
-		transition: color 0.3s;
-	}
+    
+    .center-section
+   {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-	.social-icons a:hover {
-		color: #ff7b00;
-	}
+  
+    .right-section {
+        flex: 1;
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
 
-	.footer-nav {
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		gap: 1rem;
-	}
+    .left-section img {
+        height: 2rem;
+    }
 
-	.footer-nav li {
-		font-size: 1rem;
-	}
+    .social-icons {
+        display: flex;
+        gap: 1rem;
+    }
 
-	.footer-nav li a {
-		color: white;
-		text-decoration: none;
-		transition: color 0.3s;
-	}
+    .social-icons a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: color 0.3s;
+    }
 
-	.footer-nav li a:hover {
-		color: #ff7b00;
-	}
+    .social-icons a:hover {
+        color: #ff7b00;
+    }
+
+    .copyright {
+        font-size: 1rem;
+    }
 </style>

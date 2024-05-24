@@ -2,8 +2,8 @@
 	import { writable } from 'svelte/store';
 	import { PUBLIC_API_URL } from '$env/static/public';
 
-	let email = ''; // Declare email variable
-	let password = ''; // Declare password variable
+	let email = '';
+	let password = ''; 
 
 	const loggedInUser = writable(null);
 
@@ -21,7 +21,7 @@
 
 			if (response.ok) {
 				const responseData = await response.json();
-				loggedInUser.set(responseData); // Store the entire user object
+				loggedInUser.set(responseData); 
 				localStorage.setItem('loggedInUser', JSON.stringify(responseData)); //
 				window.location.reload();
 			} else {
@@ -88,9 +88,10 @@
 	.input-field {
 		width: 100%;
 		padding: 10px;
-		margin-bottom: 10px;
+		margin-bottom: 0.5em;
 		border: 1px solid #ccc;
 		border-radius: 5px;
+		margin-top: 0.5em;
 	}
 
 	.input-container {
@@ -123,7 +124,7 @@
 	}
 
 	.login-btn:hover {
-		background-color: #0056b3;
+		background-color: #333333;
 	}
 
 	.forgot-password,

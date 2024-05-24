@@ -46,13 +46,11 @@
     .user-list {
         list-style: none; 
         padding: 0;
-        border: solid red 5px;
         background-color: white;
     }
 
     .user-item {
         padding: 10px;
-        border-top: solid red 5px;
     }
 
     .user-item div {

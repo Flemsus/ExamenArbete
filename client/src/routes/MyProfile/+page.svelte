@@ -51,7 +51,7 @@
 					}
 					return art;
 				});
-				// Reassign the userArt array to trigger reactivity
+				
 				user = { ...user, userArt: updatedArtworks };
 			} else {
 				console.error('Failed to update artwork:', response.status);
@@ -68,7 +68,7 @@
 			});
 
 			if (response.ok) {
-				// Filter out the deleted artwork and reassign the userArt array
+
 				user = { ...user, userArt: user.userArt.filter((art) => art.id !== artwork.id) };
 			} else {
 				console.error('Failed to delete artwork:', response.status);
@@ -78,6 +78,7 @@
 		}
 	}
 </script>
+
 <div class="profile-container">
 <h1>Profile</h1>
 
@@ -115,6 +116,7 @@
 	/>
 {/if}
 </div>
+
 <style>
 
 	.artworks-container {
@@ -135,7 +137,7 @@
 	}
 
 	.addart-btn:hover {
-		background-color: #0056b3;
+		background-color: #333333;
 	}
 
 	h2 {

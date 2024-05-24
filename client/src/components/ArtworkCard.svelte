@@ -38,7 +38,7 @@
 		<button
 			disabled={!isLoggedIn}
 			class:disabled={!isLoggedIn}
-			title={isLoggedIn ? '' : 'You must be logged in to purchase this item'}
+			title={isLoggedIn ? '' : 'You must be logged in to purchase this item.'}
 			on:click={handleBuyNow}>Buy Now</button
 		>
 	</div>
@@ -63,6 +63,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		border-radius: 8px;
 	}
 
 	.artwork-card h2 {
@@ -100,6 +101,7 @@
 		text-align: left;
 		background-color: #f0f0f0;
 		width: 100%;
+		border-radius: 8px;
 	}
 
 	.artwork-card .description-box p {
@@ -113,6 +115,7 @@
 		margin-top: 16px;
 		background-color: #f0f0f0;
 		width: 100%;
+		border-radius: 8px;
 	}
 
 	.artwork-card .buy-box button {
@@ -121,6 +124,12 @@
 		border: none;
 		padding: 8px 16px;
 		cursor: pointer;
+		border-radius: 8px;
+	}
+
+	.artwork-card .buy-box button:hover {
+		background-color: #333333;
+
 	}
 
 	.artwork-card .buy-box button.disabled {

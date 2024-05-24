@@ -26,7 +26,7 @@
 		<img src={imageUrl} alt={title} />
 	</div>
 	<p class="description">{description}</p>
-	<p class="price">{price}€</p>
+	<p class="price">{price}</p>
 	<div class="actions">
 		<button on:click={handleEdit}>Edit</button>
 		<button on:click={handleDelete}>Delete</button>
@@ -43,6 +43,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		border-radius: 8px;
 	}
 
 	.artwork-card h2 {
@@ -73,6 +74,7 @@
 		background-color: #f0f0f0;
 		width: 100%;
 		text-align: left;
+		border-radius: 8px;
 	}
 
 	.price {
@@ -82,6 +84,7 @@
 		background-color: #f0f0f0;
 		width: 100%;
 		text-align: left;
+		border-radius: 8px;
 	}
 
 	.actions {
@@ -91,6 +94,7 @@
 		margin-top: auto;
 		margin-bottom: 16px;
 		width: 100%;
+		
 	}
 
 	.actions button {
@@ -103,6 +107,6 @@
 	}
 
 	.actions button:hover {
-		background-color: #0056b3;
+		background-color: #333333;
 	}
 </style>
