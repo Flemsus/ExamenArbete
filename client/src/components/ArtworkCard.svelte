@@ -49,6 +49,7 @@
         artwork={{ title, imageUrl }}
         artist={artist}
         loggedInUser={loggedInUser}
+		price={price}
         on:close={() => (showPurchasePopup = false)}
     />
 {/if}
@@ -56,33 +57,42 @@
 <style>
 	.artwork-card {
 		border: 1px solid orange;
-		padding: 14px;
-		margin: 14px;
+		padding: 12px;
+		margin: 12px;
 		text-align: center;
-		width: 300px;
+		width: 260px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		border-radius: 8px;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		background-color: #fff;
+		transition: transform 0.3s ease;
+	}
+
+	.artwork-card:hover {
+		transform: scale(1.05);
 	}
 
 	.artwork-card h2 {
-		font-size: 24px;
-		margin-bottom: 4px;
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+		color: #333;
 	}
 
 	.artwork-card .artist {
-		font-size: 18px;
+		font-size: 1rem;
 		margin-top: 0;
+		color: #777;
 	}
 
 	.image-container {
 		width: 100%;
-		height: 200px;
+		height: 160px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-bottom: 8px;
+		margin-bottom: 10px;
 	}
 
 	.artwork-card img {
@@ -90,32 +100,38 @@
 		max-height: 100%;
 		object-fit: cover;
 		border: 2px solid orange;
-		border-radius: 8px;
+		border-radius: 10px;
 	}
 
 	.artwork-card .description-box {
 		border: 1px solid orange;
 		padding: 8px;
-		margin-top: auto;
-		margin-bottom: 16px;
+		margin-bottom: 12px;
 		text-align: left;
-		background-color: #f0f0f0;
+		background-color: #f9f9f9;
 		width: 100%;
-		border-radius: 8px;
+		border-radius: 10px;
 	}
 
 	.artwork-card .description-box p {
 		margin-top: 0;
-		font-size: 14px;
+		font-size: 0.9rem;
+		color: #555;
 	}
 
 	.artwork-card .buy-box {
 		border: 1px solid orange;
 		padding: 8px;
-		margin-top: 16px;
-		background-color: #f0f0f0;
+		background-color: #f9f9f9;
 		width: 100%;
-		border-radius: 8px;
+		border-radius: 10px;
+	}
+
+	.artwork-card .buy-box .price {
+		font-size: 1.2rem;
+		font-weight: bold;
+		color: #333;
+		margin-bottom: 0.5rem;
 	}
 
 	.artwork-card .buy-box button {
@@ -125,11 +141,14 @@
 		padding: 8px 16px;
 		cursor: pointer;
 		border-radius: 8px;
+		font-size: 0.9rem;
+		transition: background-color 0.3s ease, transform 0.3s ease;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	}
 
 	.artwork-card .buy-box button:hover {
 		background-color: #333333;
-
+		transform: scale(1.05);
 	}
 
 	.artwork-card .buy-box button.disabled {

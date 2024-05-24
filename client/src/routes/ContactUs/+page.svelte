@@ -20,6 +20,11 @@
     }
 </script>
 
+<svelte:head>
+	<title>Contact</title>
+	<meta name="description" content="Contact" />
+</svelte:head>
+
 <h1>Contact Us</h1>
 
 <div class="contact-container">
@@ -169,6 +174,11 @@
             margin-right: 0;
             margin-bottom: 30px;
         }
+
+        form {
+            margin-left: 20px;
+            max-width: 500px;
+            width: calc(100% - 40px);
+        }
     }
 </style>
-

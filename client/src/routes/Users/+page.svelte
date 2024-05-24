@@ -1,22 +1,43 @@
 <script>
-	import { onMount } from 'svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
+    import { onMount } from 'svelte';
+    import { PUBLIC_API_URL } from '$env/static/public';
 
-	let users = [];
-	let userToDelete = null;
+    let users = [];
+    let userToDelete = null;
+    let isAdmin = false;
 
-	onMount(async () => {
-		try {
-			const response = await fetch(`${PUBLIC_API_URL}/user/all`);
-			if (response.ok) {
-				users = await response.json();
-			} else {
-				console.error('Failed to fetch users:', response.statusText);
-			}
-		} catch (error) {
-			console.error('Error fetching users:', error);
-		}
-	});
+    onMount(async () => {
+        const storedUser = localStorage.getItem('loggedInUser');
+        if (storedUser) {
+            try {
+                const user = JSON.parse(storedUser);
+                isAdmin = user.roleId === 1; 
+
+                if (!isAdmin) {
+
+                    window.location.href = '/';
+                    return;
+                }
+
+       
+                try {
+                    const response = await fetch(`${PUBLIC_API_URL}/user/all`);
+                    if (response.ok) {
+                        users = await response.json();
+                    } else {
+                        console.error('Failed to fetch users:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching users:', error);
+                }
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+            }
+        } else {
+            
+            window.location.href = '/';
+        }
+    });
 
 	async function deleteUser(id) {
 		userToDelete = users.find((user) => user.id === id);
@@ -46,8 +67,8 @@
 </script>
 
 <svelte:head>
-	<title>Show Users</title>
-	<meta name="description" content="Users" />
+	<title>Admin</title>
+	<meta name="description" content="Admin" />
 </svelte:head>
 
 <div class="container">
@@ -126,6 +147,7 @@
 		border-radius: 8px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 		z-index: 999;
+		border: solid #333333 2px;
 	}
 
 	.buttons {

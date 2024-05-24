@@ -47,6 +47,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Register</title>
+	<meta name="description" content="Register" />
+</svelte:head>
+
 <div class="new-user">
 	<h2>Register</h2>
 	{#if errorMessage}
@@ -62,6 +67,7 @@
 		<button type="submit">Create account</button>
 	</form>
 </div>
+
 
 <style>
 	h2 {

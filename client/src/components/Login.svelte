@@ -125,6 +125,7 @@
 
 	.login-btn:hover {
 		background-color: #333333;
+		transition: background-color 0.3s ease, transform 0.3s ease;
 	}
 
 	.forgot-password,

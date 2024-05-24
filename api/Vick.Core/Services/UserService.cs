@@ -44,6 +44,7 @@ namespace Vick.Core.Services
             }
         }
 
+
         public User GetUserByEmail(string email)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -167,6 +168,7 @@ namespace Vick.Core.Services
                 return rowsAffected > 0;
             }
         }
+
 
 
     }

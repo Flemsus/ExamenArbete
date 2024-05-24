@@ -1,6 +1,9 @@
 <script>
 </script>
-
+<svelte:head>
+	<title>About</title>
+	<meta name="description" content="About" />
+</svelte:head>
 <h1>About Us</h1>
 
 <section>
@@ -26,19 +29,19 @@
 	<h2>Core Values</h2>
 	<ul>
 		<li>
-			<strong>Creativity:</strong> We celebrate the diversity of artistic expression and foster an environment
+			<strong>Creativity:</strong><br> We celebrate the diversity of artistic expression and foster an environment
 			where creativity knows no bounds.
 		</li>
 		<li>
-			<strong>Innovation:</strong> We embrace innovation and continuously strive to push the boundaries
+			<strong>Innovation:</strong><br> We embrace innovation and continuously strive to push the boundaries
 			of technology to enhance the art experience for our community.
 		</li>
 		<li>
-			<strong>Community:</strong> We believe in the power of community and seek to cultivate meaningful
+			<strong>Community:</strong><br> We believe in the power of community and seek to cultivate meaningful
 			connections between artists and art lovers worldwide.
 		</li>
 		<li>
-			<strong>Quality:</strong> We uphold the highest standards of quality in everything we do, from
+			<strong>Quality:</strong><br> We uphold the highest standards of quality in everything we do, from
 			the artworks showcased on our platform to the user experience we provide.
 		</li>
 	</ul>
@@ -102,7 +105,7 @@
 
 	blockquote {
 		font-style: italic;
-		border-left: 5px solid #007bff;
+		border-left: 5px solid orange;
 		padding-left: 15px;
 		margin-bottom: 10px;
 	}
@@ -132,6 +135,6 @@
 	}
 
 	li {
-		margin-bottom: 5px;
+		margin-bottom: 1em;
 	}
 </style>

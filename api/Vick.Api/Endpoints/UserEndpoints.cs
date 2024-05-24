@@ -19,6 +19,7 @@ public class UserEndpoints : IEndpoints
         app.MapGet($"{BasePath}/all", GetAllUsers);
         app.MapPost($"{BasePath}/login", LoginUser);
         app.MapDelete($"{BasePath}/delete/{{id}}", DeleteUser);
+        app.MapGet($"{BasePath}/{{id}}", GetUserById);
 
         // Artwork endpoints
         app.MapGet($"{BasePath}/allArt", GetAllArtworks);
@@ -87,6 +88,12 @@ public class UserEndpoints : IEndpoints
         }
     }
 
+    private static IResult GetUserById(int id, [FromServices] IUserService userService)
+    {
+        var user = userService.GetUser(id);
+        return user != null ? Results.Ok(user) : Results.NotFound("User not found.");
+    }
+
     // Artwork related methods
     private static IResult GetAllArtworks([FromServices] IUserService userService)
     {
@@ -125,4 +132,6 @@ public class UserEndpoints : IEndpoints
             return Results.NotFound();
         }
     }
+
+
 }

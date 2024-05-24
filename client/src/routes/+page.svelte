@@ -1,3 +1,8 @@
+<svelte:head>
+    <title>Home</title>
+    <meta name="description" content="Home" />
+</svelte:head>
+
 <div class="hero-section">
     <div class="home-text">
         <h1>Art Reveals Talent</h1>
@@ -21,7 +26,6 @@
 <style>
     .hero-section {
         background-color: white;
-        background-size: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -36,18 +40,18 @@
     }
 
     .hero-section h1 {
-        font-size: 3rem;
+        font-size: 2.5rem;
         margin-bottom: 1rem;
     }
 
     .hero-section p {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         margin-bottom: 2rem;
     }
 
     .info-boxes {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         gap: 2rem;
         margin-top: 2rem;
     }
@@ -57,7 +61,7 @@
         padding: 2rem;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
+        max-width: 90%;
         text-align: left;
     }
 
@@ -85,5 +89,20 @@
 
     .btn:hover {
         background-color: #333333;
+    }
+
+    @media (min-width: 768px) {
+        
+        .hero-section {
+            padding: 4rem;
+        }
+
+        .info-boxes {
+            flex-direction: row;
+        }
+
+        .info-box {
+            max-width: 400px;
+        }
     }
 </style>

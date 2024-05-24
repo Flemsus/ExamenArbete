@@ -41,6 +41,11 @@
 
 </script>
 
+<svelte:head>
+	<title>Gallery</title>
+	<meta name="description" content="Gallery" />
+</svelte:head>
+
 <div class="featured-artworks">
 	{#each artworks as artwork}
 		{#if users[artwork.artCreatorId]}
@@ -54,6 +59,7 @@
 		{/if}
 	{/each}
 </div>
+<div class="empty-space"> </div>
 
 <style>
 	.featured-artworks {
@@ -61,4 +67,9 @@
 		flex-wrap: wrap;
 		justify-content: center;
 	}
+
+	.empty-space {
+		height: 1em;
+	}
+	
 </style>

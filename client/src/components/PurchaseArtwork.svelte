@@ -4,6 +4,8 @@
     import { onMount } from 'svelte';
 
     export let artwork;
+    export let artist;
+    export let price;
     const loggedInUserName = writable(null);
 
     let cardNumber = '';
@@ -50,7 +52,7 @@
 
 <div class="modal-overlay">
     <div class="modal-content">
-        <h2>{$loggedInUserName} wants to buy "{artwork.title}" sold by {artwork.artist} for {artwork.price}€</h2>
+        <h2>{$loggedInUserName} wants to buy "{artwork.title}" sold by {artist} for {price}€</h2>
         <div class="artwork-preview">
             <img src={artwork.imageUrl} alt={artwork.title} />
         </div>
@@ -99,7 +101,7 @@
 
     .modal-content h2 {
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         margin-bottom: 1.5rem;
     }
 
@@ -190,6 +192,7 @@
 
     .cancel-button:hover {
         background-color: #bd2130;
+        
     }
 
     .success-message {
