@@ -80,7 +80,7 @@
     .btn {
         display: inline-block;
         padding: 0.8rem 1.5rem;
-        background-color: orange;
+        background-color: #ff7b00;
         color: white;
         text-decoration: none;
         border-radius: 4px;

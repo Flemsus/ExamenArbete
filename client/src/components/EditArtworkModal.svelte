@@ -90,21 +90,32 @@
 	}
 
 	.save-btn {
-		background-color: #e3a13d;
+		background-color: #ff7b00;
 		color: #fff;
 		border: none;
 		padding: 10px 20px;
 		border-radius: 3px;
 		cursor: pointer;
 		margin-right: 10px;
+		transition: background-color 0.3s;
+	}
+
+	.save-btn:hover {
+		background-color: #333333;
 	}
 
 	.cancel-btn {
-		background-color: #ccc;
-		color: #333;
+		background-color: #dc3545;
+        color: #ffffff;
 		border: none;
 		padding: 10px 20px;
 		border-radius: 3px;
 		cursor: pointer;
+		transition: background-color 0.3s;
 	}
+
+    .cancel-btn:hover {
+        background-color: #bd2130;
+        
+    }
 </style>

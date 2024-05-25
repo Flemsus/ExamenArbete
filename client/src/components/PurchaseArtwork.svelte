@@ -6,12 +6,15 @@
     export let artwork;
     export let artist;
     export let price;
+    
     const loggedInUserName = writable(null);
+    const loggedInUserId = writable(null);
 
     let cardNumber = '';
     let agreeToPayment = false;
     let showSuccessMessage = false;
     let isCardValid = false;
+    let canBuyOwnArtwork = true;
 
     const dispatch = createEventDispatcher();
 
@@ -21,6 +24,8 @@
             try {
                 const user = JSON.parse(loggedInUser);
                 loggedInUserName.set(user.name);
+                loggedInUserId.set(user.id);
+                canBuyOwnArtwork = user.id !== artwork.artCreatorId;
             } catch (error) {
                 console.error('Error parsing user data:', error);
             }
@@ -31,6 +36,10 @@
         if (agreeToPayment) {
             if (!isCardValid) {
                 alert('Please enter a valid 12-digit card number.');
+                return;
+            }
+            if (!canBuyOwnArtwork) {
+                alert("You can't buy your own item.");
                 return;
             }
             showSuccessMessage = true;
@@ -63,7 +72,7 @@
                 <label for="agree-checkbox">I am sure.</label>
             </div>
             <div class="button-group">
-                <button class="buy-button" disabled={!agreeToPayment} on:click={handleBuyNow}>Buy</button>
+                <button class="buy-button" disabled={!agreeToPayment} on:click={handleBuyNow}>Purchase</button>
                 <button class="cancel-button" on:click={handleCancel}>I'll think about it</button>
             </div>
         </div>
@@ -169,7 +178,7 @@
     }
 
     .buy-button {
-        background-color: orange;
+        background-color: #ff7b00;
         color: #ffffff;
         cursor: pointer;
     }
@@ -178,6 +187,11 @@
         background-color: #dc3545;
         color: #ffffff;
         cursor: pointer;
+    }
+
+    .cancel-button:hover {
+        background-color: #bd2130;
+        
     }
 
     .buy-button:disabled {
@@ -190,10 +204,7 @@
         background-color: #333333;
     }
 
-    .cancel-button:hover {
-        background-color: #bd2130;
-        
-    }
+    
 
     .success-message {
         position: fixed;

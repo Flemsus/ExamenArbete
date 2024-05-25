@@ -5,7 +5,7 @@
 <div class="footer">
     <div class="footer-content">
         <div class="left-section">
-            <a href="/"><img src="images/Logo.png" alt="Logo" /></a>
+            <div class="logo"><a href="/"><img src="/images/Logo.png" alt="Logo" /></a></div>
         </div>
         <div class="center-section">
             <div class="copyright">Art Reveals Talent &copy;</div>
@@ -34,7 +34,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100vw;
+        width: 100%;
         max-width: 64rem;
         align-self: center;
         position: relative;
@@ -49,30 +49,25 @@
         max-width: 64rem;
     }
 
-   
-   
     .left-section {
         flex: 1;
         display: flex;
-        justify-content: left;
-        align-items: left;
+        justify-content: flex-start;
+        align-items: center;
     }
 
-    
-    .center-section
-   {
+    .center-section {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-  
     .right-section {
         flex: 1;
         display: flex;
-        justify-content: right;
-        align-items: right;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     .left-section img {
@@ -98,4 +93,50 @@
     .copyright {
         font-size: 1rem;
     }
+
+    @media (max-width: 600px) {
+    .footer {
+        padding: 0.5rem 1rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-section, .center-section, .right-section {
+        flex: unset;
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .left-section {
+        margin-bottom: 0.2rem;
+    }
+
+    .left-section img {
+        height: 3rem;
+
+    }
+
+    .social-icons a {
+        font-size: 1.2rem;
+    }
+
+    .copyright {
+        font-size: 0.8rem;
+    }
+
+   
+    .center-section {
+        order: 2; 
+        margin-bottom: 0.1rem;
+    }
+
+    .right-section {
+        order: 1; 
+    }
+}
+
 </style>

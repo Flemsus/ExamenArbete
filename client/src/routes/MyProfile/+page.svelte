@@ -175,7 +175,7 @@
     .addart-btn {
         margin-top: 1rem;
         padding: 0.75rem 1.5rem;
-        background-color: orange;
+        background-color: #ff7b00;
         color: #fff;
         border: none;
         border-radius: 8px;

@@ -55,6 +55,7 @@
 				artist={users[artwork.artCreatorId].name}
 				description={artwork.artDescription}
 				price={artwork.artPrice}
+				userId={artwork.artCreatorId}
 			/>
 		{/if}
 	{/each}

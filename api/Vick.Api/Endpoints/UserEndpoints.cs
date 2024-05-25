@@ -21,6 +21,7 @@ public class UserEndpoints : IEndpoints
         app.MapDelete($"{BasePath}/delete/{{id}}", DeleteUser);
         app.MapGet($"{BasePath}/{{id}}", GetUserById);
 
+
         // Artwork endpoints
         app.MapGet($"{BasePath}/allArt", GetAllArtworks);
         app.MapPost($"{BasePath}/addArt", AddArtwork);
@@ -93,6 +94,8 @@ public class UserEndpoints : IEndpoints
         var user = userService.GetUser(id);
         return user != null ? Results.Ok(user) : Results.NotFound("User not found.");
     }
+
+
 
     // Artwork related methods
     private static IResult GetAllArtworks([FromServices] IUserService userService)

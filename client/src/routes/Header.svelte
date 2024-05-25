@@ -73,7 +73,7 @@
 </script>
 
 <div class="header">
-    <div class="logo"><a href="/"><img src="images/Logo.png" alt="Logo" /></a></div>
+    <div class="logo"><a href="/"><img src="/images/Logo.png" alt="Logo" /></a></div>
     <div class="nav">
         <a href="/">Home</a>
         <a href="/Gallery">Gallery</a>
@@ -193,6 +193,7 @@
         padding: 0.5rem 1rem;
         border-radius: 5px;
         margin-left: 0.5em;
+        text-align: center;
         
     }
 
@@ -232,4 +233,3 @@
         }
     }
 </style>
-

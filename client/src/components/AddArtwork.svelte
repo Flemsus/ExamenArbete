@@ -125,7 +125,7 @@
 	}
 
 	.save-btn {
-		background-color: #e3a13d;
+		background-color: #ff7b00;
 		color: #fff;
 		border: none;
 		padding: 10px 20px;

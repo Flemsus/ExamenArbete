@@ -57,18 +57,21 @@
 </section>
 
 <section>
-	<h4>Founders</h4>
-	<div class="team-member">
-		<img src="images/Dolan.png" alt="Donald Duck" />
-		<h3>Donald Duck</h3>
-		<p>Co-Founder & CEO</p>
-	</div>
-	<div class="team-member">
-		<img src="images/Gooby.png" alt="Goofy Goof" />
-		<h3>Goofy Goof</h3>
-		<p>Co-Founder & CTO</p>
-	</div>
+    <h4>Founders</h4>
+    <div class="team-members">
+        <div class="team-member">
+            <img src="images/Dolan.png" alt="Donald Duck" />
+            <h3>Donald Duck</h3>
+            <p>Co-Founder & CEO</p>
+        </div>
+        <div class="team-member">
+            <img src="images/Gooby.png" alt="Goofy Goof" />
+            <h3>Goofy Goof</h3>
+            <p>Co-Founder & CTO</p>
+        </div>
+    </div>
 </section>
+
 
 <style>
 	h1 {
@@ -105,7 +108,7 @@
 
 	blockquote {
 		font-style: italic;
-		border-left: 5px solid orange;
+		border-left: 5px solid #ff7b00;
 		padding-left: 15px;
 		margin-bottom: 10px;
 	}
@@ -115,10 +118,28 @@
 		margin-top: 10px;
 	}
 
-	.team-member {
-		text-align: center;
-		margin-bottom: 10px;
-	}
+	.team-members {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.team-member {
+    flex-basis: 50%; 
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .team-members {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team-member {
+        flex-basis: 45%;
+    }
+}
 
 	.team-member img {
 		width: 150px;

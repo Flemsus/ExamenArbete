@@ -98,7 +98,7 @@
 	}
 
 	button {
-		background-color: orange;
+		background-color: #ff7b00;
 		color: white;
 		padding: 10px 20px;
 		border: none;
@@ -114,7 +114,7 @@
 	.new-user {
 		margin-top: 5px;
 		margin-bottom: 5px;
-		border: solid orange 5px;
+		border: solid #ff7b00 5px;
 		padding: 1em;
 		background: white;
 	}

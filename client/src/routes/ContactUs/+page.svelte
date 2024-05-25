@@ -103,7 +103,7 @@
     }
 
     .info-text i {
-        color: #e3a13d;
+        color: #ff7b00;
         margin-right: 10px;
     }
 

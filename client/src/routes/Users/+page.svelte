@@ -114,7 +114,7 @@
 	.user-list {
 		list-style: none;
 		padding: 0;
-		border: solid orange 5px;
+		border: solid #ff7b00 5px;
 		background-color: white;
 	}
 
