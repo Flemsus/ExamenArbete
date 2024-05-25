@@ -3,7 +3,6 @@
     import { PUBLIC_API_URL } from '$env/static/public';
 
     let users = [];
-
     let emailToCheck = '';
     let emailExists = null;
     let popupVisible = false;
@@ -29,13 +28,29 @@
             emailToCheck = '';
         }, 3000);
     }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            checkEmailExists();
+        }
+    }
 </script>
 
 <div class="container">
     <div>
         <label for="emailInput">Email</label>
-        <input type="email" id="emailInput" bind:value={emailToCheck} />
-        <button on:click={checkEmailExists}>Recover password</button>
+        <input 
+            type="email" 
+            id="emailInput" 
+            bind:value={emailToCheck} 
+            on:keypress={handleKeyPress} 
+        />
+        <button 
+            on:click={checkEmailExists} 
+            on:keypress={event => event.key === 'Enter' && checkEmailExists()} 
+        >
+            Recover password
+        </button>
         {#if popupVisible}
             <div class="popup">
                 {#if emailExists !== null}
@@ -53,17 +68,17 @@
 
 <style>
     .container {
-    max-width: 400px;
-    margin: auto;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+        max-width: 400px;
+        margin: auto;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
     label {
         display: block;
@@ -72,7 +87,7 @@
     }
 
     input[type="email"] {
-        width: 100%;
+        width: calc(100% - 31px); 
         padding: 8px;
         margin-bottom: 10px;
         border: 1px solid #ccc;
@@ -86,11 +101,11 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-		transition: background-color 0.3s;
+        transition: background-color 0.3s;
     }
 
-	button:hover {
-		background-color: #333333;
+    button:hover {
+        background-color: #333333;
     }
 
     .popup {
@@ -104,10 +119,11 @@
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         z-index: 9999;
+		width: 80%; 
+    max-width: 400px; 
     }
 
     .popup p {
         margin: 0;
     }
 </style>
-
