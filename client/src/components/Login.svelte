@@ -6,6 +6,7 @@
 	let password = ''; 
 
 	const loggedInUser = writable(null);
+	let loginMessage = '';
 
 	async function loginUser(email, password) {
 		const userData = { email, password };
@@ -22,13 +23,19 @@
 			if (response.ok) {
 				const responseData = await response.json();
 				loggedInUser.set(responseData); 
-				localStorage.setItem('loggedInUser', JSON.stringify(responseData)); //
+				localStorage.setItem('loggedInUser', JSON.stringify(responseData));
 				window.location.reload();
 			} else {
-				alert('Invalid email or password.');
+				loginMessage = 'Invalid email or password.';
+				setTimeout(() => {
+					loginMessage = '';
+				}, 3000);
 			}
 		} catch (error) {
-			console.error('Error during login:', error);
+			loginMessage = 'Error during login: ' + error.message;
+			setTimeout(() => {
+				loginMessage = '';
+			}, 2000);
 		}
 	}
 
@@ -67,6 +74,12 @@
 	<button class="login-btn" on:click={() => loginUser(email, password)}>Login</button>
 	<a href="/register-user" class="register">Register here!</a>
 	<a href="/forgot-password" class="forgot-password">Forgot your password?</a>
+
+	{#if loginMessage}
+		<div class="popup">
+			<p>{loginMessage}</p>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -152,5 +165,20 @@
 		.container {
 			width: 30%;
 		}
+	}
+
+	.popup {
+		position: fixed;
+		width: 90%;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: #ffffff;
+		padding: 1rem;
+		border-radius: 5px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+		z-index: 1001;
+		text-align: center;
+		color: #000; 
 	}
 </style>

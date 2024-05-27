@@ -114,6 +114,8 @@ namespace Vick.Core.Services
             }
         }
 
+
+
         public List<Artwork> GetAllArtworks()
         {
             using (var connection = new SqlConnection(_connectionString))
