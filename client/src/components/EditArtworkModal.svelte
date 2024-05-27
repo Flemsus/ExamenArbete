@@ -44,6 +44,14 @@
 </div>
 
 <style>
+
+h2 {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
 	.modal-overlay {
 		position: fixed;
 		top: 0;

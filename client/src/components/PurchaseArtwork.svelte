@@ -15,6 +15,7 @@
     let showSuccessMessage = false;
     let isCardValid = false;
     let canBuyOwnArtwork = true;
+    let showInvalidCardMessage = false; 
 
     const dispatch = createEventDispatcher();
 
@@ -35,7 +36,7 @@
     function handleBuyNow() {
         if (agreeToPayment) {
             if (!isCardValid) {
-                alert('Please enter a valid 12-digit card number.');
+                showInvalidCardMessage = true; 
                 return;
             }
             if (!canBuyOwnArtwork) {
@@ -82,6 +83,15 @@
 {#if showSuccessMessage}
     <div class="success-message">
         <p>Thanks for your purchase!</p>
+    </div>
+{/if}
+
+{#if showInvalidCardMessage} 
+    <div class="custom-popup">
+        <div class="popup-content">
+            <p>Please enter a valid 12-digit card number.</p>
+            <button class="close-button" on:click={() => (showInvalidCardMessage = false)}>Close</button>
+        </div>
     </div>
 {/if}
 
@@ -219,5 +229,41 @@
         text-align: center;
         font-size: 1.2rem;
         font-weight: 500;
+    }
+
+    .custom-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .popup-content {
+        margin-bottom: 1rem;
+    }
+
+    .close-button {
+        padding: 0.5rem 1rem;
+        background-color: #ff7b00;
+        color: #ffffff;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-button:hover {
+        background-color: #333333;
+        transform: scale(1.05);
     }
 </style>

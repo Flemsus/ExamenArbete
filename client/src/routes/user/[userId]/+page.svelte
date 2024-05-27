@@ -9,9 +9,17 @@
     let artworks = [];
     let loading = true;
     let error = null;
+    let loggedInUser = null;
 
     onMount(async () => {
         userId = $page.params.userId;
+        loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        if (loggedInUser && loggedInUser.id == userId) {
+            window.location.href = '/MyProfile';
+            return;
+        }
+
         try {
             const response = await fetch(`${PUBLIC_API_URL}/user/${userId}`);
             if (response.ok) {
